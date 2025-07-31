@@ -1,23 +1,18 @@
 # Pseudocódigo: Guerrero Dragon17
-
-## Variables
+## Variables globales
 entero fuerza ← 10  
 entero resistencia ← 10  
 entero energia ← 100  
+entero vida ← 100  
 entero experiencia ← 0  
+entero nivel ← 1  
+entero experienciaNecesaria ← 50  
 entero opcion ← 0  
 booleano seguirJugando ← verdadero  
 
 ## Menú principal
-MIENTRAS seguirJugando = verdadero HACER
-    MOSTRAR "----- MENÚ -----"
-    MOSTRAR "1. Ver estado"
-    MOSTRAR "2. Entrenar fuerza"
-    MOSTRAR "3. Entrenar resistencia"
-    MOSTRAR "4. Pelear con enemigo"
-    MOSTRAR "5. Dormir"
-    MOSTRAR "6. Salir"
-    MOSTRAR "Elige una opción:"
+MIENTRAS seguirJugando = verdadero Y vida > 0 HACER
+    LLAMAR MostrarMenu()
     LEER opcion
 
     SEGÚN opcion HACER
@@ -43,57 +38,97 @@ MIENTRAS seguirJugando = verdadero HACER
         OTRO CASO:
             MOSTRAR "Opción inválida"
     FIN SEGÚN
+
+    LLAMAR RevisarNivel()
+
+    SI vida ≤ 0 ENTONCES
+        MOSTRAR "¡Has muerto en combate! Fin del juego."
+    FIN SI
+
+    ESPERAR entrada del jugador
+    LIMPIAR pantalla
 FIN MIENTRAS
 
-## Métodos
+## Funciones
+
+FUNCIÓN MostrarMenu()
+    MOSTRAR "----- MENÚ -----"
+    MOSTRAR "1. Ver estado"
+    MOSTRAR "2. Entrenar fuerza"
+    MOSTRAR "3. Entrenar resistencia"
+    MOSTRAR "4. Pelear con enemigo"
+    MOSTRAR "5. Dormir"
+    MOSTRAR "6. Salir"
+    MOSTRAR "Elige una opción:"
+FIN FUNCIÓN
 
 FUNCIÓN VerEstado()
     MOSTRAR "Fuerza: ", fuerza
     MOSTRAR "Resistencia: ", resistencia
     MOSTRAR "Energía: ", energia
-    MOSTRAR "Experiencia: ", experiencia
+    MOSTRAR "Vida: ", vida
+    MOSTRAR "Experiencia: ", experiencia, "/", experienciaNecesaria
+    MOSTRAR "Nivel: ", nivel
 FIN FUNCIÓN
 
 FUNCIÓN EntrenarFuerza()
-    SI energia >= 10 ENTONCES
+    SI energia ≥ 10 ENTONCES
         fuerza ← fuerza + 1
         energia ← energia - 10
         experiencia ← experiencia + 5
-        MOSTRAR "Entrenaste fuerza"
+        MOSTRAR "Entrenaste fuerza."
     SINO
-        MOSTRAR "No tienes energía suficiente"
+        MOSTRAR "No tienes suficiente energía para entrenar."
 FIN FUNCIÓN
 
 FUNCIÓN EntrenarResistencia()
-    SI energia >= 10 ENTONCES
+    SI energia ≥ 10 ENTONCES
         resistencia ← resistencia + 1
         energia ← energia - 10
         experiencia ← experiencia + 5
-        MOSTRAR "Entrenaste resistencia"
+        MOSTRAR "Entrenaste resistencia."
     SINO
-        MOSTRAR "No tienes energía suficiente"
+        MOSTRAR "No tienes suficiente energía para entrenar."
 FIN FUNCIÓN
 
 FUNCIÓN PelearConEnemigo()
-    SI energia >= 20 ENTONCES
-        MOSTRAR "¡Te enfrentas a un enemigo!"
-        enemigoFuerza ← número aleatorio entre 5 y 15
-        enemigoResistencia ← número aleatorio entre 5 y 15
+    SI energia ≥ 20 ENTONCES
+        enemigoFuerza ← número aleatorio entre (nivel * 3) y (nivel * 6)
+        enemigoResistencia ← número aleatorio entre (nivel * 2) y (nivel * 5)
 
-        SI fuerza >= enemigoFuerza Y resistencia >= enemigoResistencia ENTONCES
+        MOSTRAR "¡Te enfrentas a un enemigo!"
+        MOSTRAR "Enemigo - Fuerza: ", enemigoFuerza, ", Resistencia: ", enemigoResistencia
+
+        SI fuerza ≥ enemigoFuerza Y resistencia ≥ enemigoResistencia ENTONCES
             experiencia ← experiencia + 15
             energia ← energia - 20
             MOSTRAR "¡Ganaste la pelea! Ganas experiencia."
         SINO
-            energia ← energia - 30
-            MOSTRAR "Perdiste la pelea. Pierdes más energía."
+            energia ← energia - 20
+            daño ← nivel * 10
+            vida ← vida - daño
+            MOSTRAR "Perdiste la pelea. Pierdes energía y vida (", daño, ")."
     SINO
-        MOSTRAR "No tienes energía suficiente para pelear"
+        MOSTRAR "No tienes suficiente energía para pelear."
 FIN FUNCIÓN
 
 FUNCIÓN Dormir()
     energia ← energia + 20
     SI energia > 100 ENTONCES
         energia ← 100
-    MOSTRAR "Descansaste y recuperaste energía"
+    MOSTRAR "Descansaste y recuperaste energía."
+FIN FUNCIÓN
+
+FUNCIÓN RevisarNivel()
+    MIENTRAS experiencia ≥ experienciaNecesaria HACER
+        nivel ← nivel + 1
+        experiencia ← experiencia - experienciaNecesaria
+        experienciaNecesaria ← experienciaNecesaria * 2
+        fuerza ← fuerza + 1
+        resistencia ← resistencia + 1
+        vida ← vida + 5
+
+        MOSTRAR "¡Subiste al nivel ", nivel, "!"
+        MOSTRAR "Ganaste +1 fuerza, +1 resistencia y +5 vida."
+    FIN MIENTRAS
 FIN FUNCIÓN
