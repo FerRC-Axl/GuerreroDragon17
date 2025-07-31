@@ -1,0 +1,77 @@
+Pseudocódigo: Guerrero Dragon17
+
+## Variables
+entero fuerza ← 10  
+entero resistencia ← 10  
+entero energia ← 100  
+entero experiencia ← 0  
+entero opcion ← 0  
+booleano seguirJugando ← verdadero  
+
+## Menú principal
+MIENTRAS seguirJugando = verdadero HACER
+    MOSTRAR "----- MENÚ -----"
+    MOSTRAR "1. Ver estado"
+    MOSTRAR "2. Entrenar fuerza"
+    MOSTRAR "3. Entrenar resistencia"
+    MOSTRAR "4. Pelear con enemigo"
+    MOSTRAR "5. Dormir"
+    MOSTRAR "6. Salir"
+    MOSTRAR "Elige una opción:"
+    LEER opcion
+
+    SEGÚN opcion HACER
+        CASO 1:
+            MOSTRAR "Fuerza: ", fuerza
+            MOSTRAR "Resistencia: ", resistencia
+            MOSTRAR "Energía: ", energia
+            MOSTRAR "Experiencia: ", experiencia
+
+        CASO 2:
+            SI energia >= 10 ENTONCES
+                fuerza ← fuerza + 1
+                energia ← energia - 10
+                experiencia ← experiencia + 5
+                MOSTRAR "Entrenaste fuerza"
+            SINO
+                MOSTRAR "No tienes energía suficiente"
+
+        CASO 3:
+            SI energia >= 10 ENTONCES
+                resistencia ← resistencia + 1
+                energia ← energia - 10
+                experiencia ← experiencia + 5
+                MOSTRAR "Entrenaste resistencia"
+            SINO
+                MOSTRAR "No tienes energía suficiente"
+
+      CASO 4:
+            SI energia >= 20 ENTONCES
+                MOSTRAR "¡Te enfrentas a un enemigo!"
+                enemigoFuerza ← número aleatorio entre 5 y 15
+                enemigoResistencia ← número aleatorio entre 5 y 15
+
+            SI fuerza >= enemigoFuerza Y resistencia >= enemigoResistencia ENTONCES
+                experiencia ← experiencia + 15
+                energia ← energia - 20
+                MOSTRAR "¡Ganaste la pelea! Ganas experiencia."
+            SINO
+                energia ← energia - 30
+                MOSTRAR "Perdiste la pelea. Pierdes más energía."
+            SINO
+                MOSTRAR "No tienes energía suficiente para pelear"
+
+        CASO 5:
+            energia ← energia + 20
+            SI energia > 100 ENTONCES
+                energia ← 100
+            MOSTRAR "Descansaste y recuperaste energía"
+
+        CASO 6:
+            seguirJugando ← falso
+            MOSTRAR "Saliendo del juego..."
+
+        OTRO CASO:
+            MOSTRAR "Opción inválida"
+    FIN SEGÚN
+FIN MIENTRAS
