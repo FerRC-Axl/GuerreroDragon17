@@ -1,4 +1,4 @@
-Pseudocódigo: Guerrero Dragon17
+# Pseudocódigo: Guerrero Dragon17
 
 ## Variables
 entero fuerza ← 10  
@@ -22,50 +22,19 @@ MIENTRAS seguirJugando = verdadero HACER
 
     SEGÚN opcion HACER
         CASO 1:
-            MOSTRAR "Fuerza: ", fuerza
-            MOSTRAR "Resistencia: ", resistencia
-            MOSTRAR "Energía: ", energia
-            MOSTRAR "Experiencia: ", experiencia
+            LLAMAR VerEstado()
 
         CASO 2:
-            SI energia >= 10 ENTONCES
-                fuerza ← fuerza + 1
-                energia ← energia - 10
-                experiencia ← experiencia + 5
-                MOSTRAR "Entrenaste fuerza"
-            SINO
-                MOSTRAR "No tienes energía suficiente"
+            LLAMAR EntrenarFuerza()
 
         CASO 3:
-            SI energia >= 10 ENTONCES
-                resistencia ← resistencia + 1
-                energia ← energia - 10
-                experiencia ← experiencia + 5
-                MOSTRAR "Entrenaste resistencia"
-            SINO
-                MOSTRAR "No tienes energía suficiente"
+            LLAMAR EntrenarResistencia()
 
-      CASO 4:
-            SI energia >= 20 ENTONCES
-                MOSTRAR "¡Te enfrentas a un enemigo!"
-                enemigoFuerza ← número aleatorio entre 5 y 15
-                enemigoResistencia ← número aleatorio entre 5 y 15
-
-            SI fuerza >= enemigoFuerza Y resistencia >= enemigoResistencia ENTONCES
-                experiencia ← experiencia + 15
-                energia ← energia - 20
-                MOSTRAR "¡Ganaste la pelea! Ganas experiencia."
-            SINO
-                energia ← energia - 30
-                MOSTRAR "Perdiste la pelea. Pierdes más energía."
-            SINO
-                MOSTRAR "No tienes energía suficiente para pelear"
+        CASO 4:
+            LLAMAR PelearConEnemigo()
 
         CASO 5:
-            energia ← energia + 20
-            SI energia > 100 ENTONCES
-                energia ← 100
-            MOSTRAR "Descansaste y recuperaste energía"
+            LLAMAR Dormir()
 
         CASO 6:
             seguirJugando ← falso
@@ -75,3 +44,56 @@ MIENTRAS seguirJugando = verdadero HACER
             MOSTRAR "Opción inválida"
     FIN SEGÚN
 FIN MIENTRAS
+
+## Métodos
+
+FUNCIÓN VerEstado()
+    MOSTRAR "Fuerza: ", fuerza
+    MOSTRAR "Resistencia: ", resistencia
+    MOSTRAR "Energía: ", energia
+    MOSTRAR "Experiencia: ", experiencia
+FIN FUNCIÓN
+
+FUNCIÓN EntrenarFuerza()
+    SI energia >= 10 ENTONCES
+        fuerza ← fuerza + 1
+        energia ← energia - 10
+        experiencia ← experiencia + 5
+        MOSTRAR "Entrenaste fuerza"
+    SINO
+        MOSTRAR "No tienes energía suficiente"
+FIN FUNCIÓN
+
+FUNCIÓN EntrenarResistencia()
+    SI energia >= 10 ENTONCES
+        resistencia ← resistencia + 1
+        energia ← energia - 10
+        experiencia ← experiencia + 5
+        MOSTRAR "Entrenaste resistencia"
+    SINO
+        MOSTRAR "No tienes energía suficiente"
+FIN FUNCIÓN
+
+FUNCIÓN PelearConEnemigo()
+    SI energia >= 20 ENTONCES
+        MOSTRAR "¡Te enfrentas a un enemigo!"
+        enemigoFuerza ← número aleatorio entre 5 y 15
+        enemigoResistencia ← número aleatorio entre 5 y 15
+
+        SI fuerza >= enemigoFuerza Y resistencia >= enemigoResistencia ENTONCES
+            experiencia ← experiencia + 15
+            energia ← energia - 20
+            MOSTRAR "¡Ganaste la pelea! Ganas experiencia."
+        SINO
+            energia ← energia - 30
+            MOSTRAR "Perdiste la pelea. Pierdes más energía."
+    SINO
+        MOSTRAR "No tienes energía suficiente para pelear"
+FIN FUNCIÓN
+
+FUNCIÓN Dormir()
+    energia ← energia + 20
+    SI energia > 100 ENTONCES
+        energia ← 100
+    MOSTRAR "Descansaste y recuperaste energía"
+FIN FUNCIÓN
